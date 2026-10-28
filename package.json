@@ -1,0 +1,9 @@
+{
+  "name": "capstone-project",
+  "private": true,
+  "version": "1.0.0",
+  "description": "MERN stack capstone project - portfolio & blog",
+  "dependencies": {
+    "serverless-http": "^4.0.0"
+  }
+}
