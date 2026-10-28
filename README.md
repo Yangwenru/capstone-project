@@ -4,8 +4,10 @@ MERN 技术栈（MongoDB Atlas + Express + React + Node.js）个人作品集与�
 
 ## Live Demo
 
-- **前端：** https://your-frontend-url.vercel.app （部署后替换）
-- **后端 API：** https://your-backend-url.onrender.com （部署后替换）
+- **线上地址（前端 + API 同域）：** https://capstone-yangwenru.netlify.app
+- **GitHub 仓库：** https://github.com/Yangwenru/capstone-project
+
+> 在线体验：先访问 `/register` 注册账号并登录，即可在 `/admin` 管理项目与博客，在博客页发表评论。
 
 ## 项目结构
 
@@ -115,15 +117,12 @@ npm run dev
 
 ## 部署
 
-### 后端 → Render
-1. 代码推送到 GitHub
-2. Render → New Web Service，Root Directory 填 `server`
-3. Build Command: `npm install`，Start Command: `npm start`
-4. 环境变量添加：`MONGO_URI`、`JWT_SECRET`、`NODE_ENV=production`
-5. MongoDB Atlas → Network Access 放行 `0.0.0.0/0`
+本项目部署在 **Netlify**：前端静态站点 + 后端 Express 以 Netlify Functions（Serverless）方式运行，前后端同域。
 
-### 前端 → Vercel / Netlify
-1. 导入仓库，Root Directory 选 `client`
-2. 框架选 Vite，Build Command `npm run build`，输出目录 `dist`
-3. 环境变量添加：`VITE_API_URL=<后端线上地址>`
-4. 部署即可，前端所有请求都会发往线上后端
+- 仓库根目录的 `netlify.toml` 声明了构建命令、发布目录（`client/dist`）、函数目录（`netlify/functions`）和路由重写规则
+- `netlify/functions/api.js` 用 `serverless-http` 把 `server/app.js` 的 Express 应用包装成云函数
+- 所有 `/api/*` 请求被重写转发到该函数，其余路径回退到 `index.html`（SPA 路由）
+- 环境变量在 Netlify 站点设置中配置：`MONGO_URI`、`JWT_SECRET`、`NODE_ENV=production`
+- MongoDB Atlas → Network Access 需放行 `0.0.0.0/0`
+
+本地开发仍按上方"本地运行"一节：后端 `npm start`（Express 监听 5000 端口），前端 `npm run dev`。
